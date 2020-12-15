@@ -53,7 +53,7 @@ code {
 
 .tag_item {
   position: absolute;
-  margin-left: "13px";
+  margin-left: 13px;
   margin-top: -10px;
   background: wheat;
   border: 2px solid black;

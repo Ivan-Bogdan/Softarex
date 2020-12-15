@@ -18,20 +18,6 @@ const DropArea = () => {
 
   useEffect(() => {
     if (image) setErr(false);
-    const container = document.getElementById("main");
-    if (image === false) {
-      container.onclick = () => {
-        alert("Поместите изображение");
-      };
-    } else {
-      container.onclick = (e) => {
-        setModalOpen(true);
-        const x = e.pageX;
-        const y = e.pageY;
-        tagsArray.push({ x: x, y: y });
-        setTagsArray([...tagsArray]);
-      };
-    }
   }, [tagsArray, image]);
 
   const removeChild = () => {
@@ -88,7 +74,21 @@ const DropArea = () => {
           ))}
         </div>
         <div className="main-div">
-          <div id="main" className="picture main">
+          <div
+            id="main"
+            className="picture main"
+            onClick={(e) => {
+              if (image === false) {
+                alert("Поместите изображение");
+              } else {
+                setModalOpen(true);
+                const x = e.pageX;
+                const y = e.pageY;
+                tagsArray.push({ x: x, y: y });
+                setTagsArray([...tagsArray]);
+              }
+            }}
+          >
             {image && <img className="picture" alt="Pictures" src={image} />}
             {tagsArray.map((item, acc) => (
               <Tag key={acc} x={item.x} y={item.y} text={item.text}></Tag>
