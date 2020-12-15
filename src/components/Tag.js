@@ -8,11 +8,14 @@ const Tag = ({ x, y, text }) => {
       onMouseOver={() => setIsShown(true)}
       onMouseOut={() => setIsShown(false)}
       className="container-point"
-      style={{ left: `${x}px`, top: `${y}px` }}
+      style={{ left: `${x - 5}px`, top: `${y - 2}px` }}
     >
-      {isShown && (<div style={{position:"relative"}}><div style={{position:"absolute",marginLeft:"13px",marginTop:"-10px", background:"wheat" , border:"2px solid black", borderRadius:"15%", zIndex:"1"}}>{text}</div></div>)}
+      {isShown && (
+        <div className="relative">
+          <div className="tag_item">{text}</div>
+        </div>
+      )}
     </div>
-    
   );
 };
 

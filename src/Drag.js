@@ -4,12 +4,11 @@ import Modal from "./components/Modal";
 import Tag from "./components/Tag";
 
 const DropArea = () => {
-  const [data, setData] = useState(false);
-  const [file, setFile] = useState(false);
-  const [modal, setModal] = useState(false);
+  const [image, setImage] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
   const [err, setErr] = useState(false);
-  const [error, setError] = useState(false);
-  const [arr, setArr] = useState([]);
+  const [tagError, setTagError] = useState(false);
+  const [tagsArray, setTagsArray] = useState([]);
   const [text, setText] = useState("");
   const [pages, setPages] = useState([
     { text: "Page1", isSelected: false },
@@ -18,61 +17,25 @@ const DropArea = () => {
   ]);
 
   useEffect(() => {
-    if (data) setErr(false);
+    if (image) setErr(false);
     const container = document.getElementById("main");
-    if (data === false) {
+    if (image === false) {
       container.onclick = () => {
         alert("Поместите изображение");
       };
     } else {
       container.onclick = (e) => {
-        setModal(true);
-
+        setModalOpen(true);
         const x = e.pageX;
         const y = e.pageY;
-
-        arr.push({ x: x, y: y });
-        setArr([...arr]);
+        tagsArray.push({ x: x, y: y });
+        setTagsArray([...tagsArray]);
       };
     }
-  }, [arr, data]);
+  }, [tagsArray, image]);
 
   const removeChild = () => {
-    setArr([]);
-  };
-
-  const onDrop = (e) => {
-    e.preventDefault();
-    const {
-      dataTransfer: { files },
-    } = e;
-    console.log(file);
-    const { length } = files;
-    const reader = new FileReader();
-    if (length === 0) {
-      return false;
-    }
-    const fileTypes = ["image/jpeg", "image/jpg", "image/png"];
-    const { size, type } = files[0];
-    setData(false);
-    if (!fileTypes.includes(type)) {
-      setErr("Формат файла должен быть png или jpg.");
-      return false;
-    }
-    if (size / 1024 / 1024 > 2) {
-      setErr("File size exceeded the limit of 2MB");
-      return false;
-    }
-    setErr(false);
-
-    reader.readAsDataURL(files[0]);
-    reader.onload = (loadEvt) => {
-      setData(loadEvt.target.result);
-    };
-  };
-
-  const onDragOver = (e) => {
-    e.preventDefault();
+    setTagsArray([]);
   };
 
   const _handleImageChange = (e) => {
@@ -87,12 +50,11 @@ const DropArea = () => {
       return false;
     }
     if (size / 1024 / 1024 > 2) {
-      setErr("File size exceeded the limit of 2MB");
+      setErr("Размер файла превышает предел 2 Мб");
       return false;
     }
     reader.onloadend = () => {
-      setFile(file);
-      setData(reader.result);
+      setImage(reader.result);
     };
 
     reader.readAsDataURL(file);
@@ -100,31 +62,21 @@ const DropArea = () => {
 
   return (
     <div>
-      {!data && (
-        <input
-          style={{ marginBottom: "15px" }}
-          type="file"
-          onChange={(e) => _handleImageChange(e)}
-        />
-      )}
+      {!image && <input type="file" onChange={(e) => _handleImageChange(e)} />}
       {err && <p>{err}</p>}
-      <div style={{ overflow: "hidden", display: "flex" }}>
-        <div style={{ maxWidth: "300px", textAlign: "left" }}>
+      <div className="main-div">
+        <div className="menu_container">
           {pages.map((item, acc) => (
             <MenuItem key={acc}>
               {item.isSelected ? (
-                <li style={{ backgroundColor:"#80808080" }}>
-                  {item.text}
-                </li>
+                <li className="menu_selected">{item.text}</li>
               ) : (
                 <li
                   onClick={() => {
                     pages.forEach((item, key) => {
-                      if (key === acc) {
-                        item.isSelected = true;
-                      } else {
-                        item.isSelected = false;
-                      }
+                      key === acc
+                        ? (item.isSelected = true)
+                        : (item.isSelected = false);
                     });
                     setPages([...pages]);
                   }}
@@ -136,30 +88,25 @@ const DropArea = () => {
           ))}
         </div>
         <div className="main-div">
-          <div
-            id="main"
-            className="picture main"
-            onDrop={(e) => onDrop(e)}
-            onDragOver={(e) => onDragOver(e)}
-          >
-            {data && <img className="picture" alt="Pictures" src={data} />}
-            {arr.map((item, acc) => (
+          <div id="main" className="picture main">
+            {image && <img className="picture" alt="Pictures" src={image} />}
+            {tagsArray.map((item, acc) => (
               <Tag key={acc} x={item.x} y={item.y} text={item.text}></Tag>
             ))}
           </div>
           <div className="list_item">
             <p>Список меток:</p>
-            {arr.map((item, acc) => (
+            {tagsArray.map((item, acc) => (
               <li key={acc}>
                 {acc + 1}){item.text}
               </li>
             ))}
           </div>
-          {modal && (
+          {isModalOpen && (
             <Modal
-              isShowing={modal}
-              elem={arr[arr.length - 1]}
-              id={arr.length - 1}
+              isShowing={isModalOpen}
+              elem={tagsArray[tagsArray.length - 1]}
+              id={tagsArray.length - 1}
             >
               <div className="modal-overlay" />
               <div
@@ -177,16 +124,16 @@ const DropArea = () => {
                       data-dismiss="modal"
                       aria-label="Close"
                       onClick={() => {
-                        arr.pop();
-                        setArr([...arr]);
-                        setModal(false);
+                        tagsArray.pop();
+                        setTagsArray([...tagsArray]);
+                        setModalOpen(false);
                       }}
                     >
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <p style={{ fontWeight: "900" }}>Добавить Тег</p>
-                  {error && <p style={{ color: "red" }}>{error}</p>}
+                  <p className="text_bold">Добавить Тег</p>
+                  {tagError && <p className="error_font">{tagError}</p>}
                   <div>
                     <input
                       className="input_style"
@@ -199,10 +146,10 @@ const DropArea = () => {
                     <div className="flex">
                       <button
                         onClick={() => {
-                          arr.pop();
-                          setArr([...arr]);
-                          setModal(false);
-                          setError("");
+                          tagsArray.pop();
+                          setTagsArray([...tagsArray]);
+                          setModalOpen(false);
+                          setTagError("");
                         }}
                       >
                         Отмена
@@ -210,14 +157,14 @@ const DropArea = () => {
                       <button
                         onClick={() => {
                           if (text !== "") {
-                            arr[arr.length - 1]["text"] = text;
-                            setArr([...arr]);
+                            tagsArray[tagsArray.length - 1]["text"] = text;
+                            setTagsArray([...tagsArray]);
 
-                            setModal(false);
-                            setError(false);
+                            setModalOpen(false);
+                            setTagError(false);
                             setText("");
                           } else {
-                            setError("Поле не может быть пустым");
+                            setTagError("Поле не может быть пустым");
                           }
                         }}
                       >
@@ -232,10 +179,10 @@ const DropArea = () => {
         </div>
       </div>
       <div className="button-wrapper">
-        {data && (
+        {image && (
           <button
             onClick={() => {
-              setData(false);
+              setImage(false);
               removeChild();
             }}
           >

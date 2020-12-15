@@ -10,6 +10,9 @@ body {
   margin: 0;
   padding: 0;
 }
+input[type="file"] {
+  margin-bottom: 15px;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -27,7 +30,7 @@ code {
   border: 0;
 }
 .button-wrapper {
-  margin: 1% 10%;
+  margin: 15px 61px;
   text-align: left;
 }
 .container {
@@ -42,4 +45,33 @@ code {
   height: 8px;
   background-color: red;
   border-radius: 50%;
+}
+
+.relative {
+  position: relative;
+}
+
+.tag_item {
+  position: absolute;
+  margin-left: "13px";
+  margin-top: -10px;
+  background: wheat;
+  border: 2px solid black;
+  border-radius: 15%;
+  z-index: 1;
+}
+
+.menu_selected {
+  background-color: #80808080;
+}
+.menu_container {
+  max-width: 300px;
+  text-align: left;
+}
+.error_font {
+  color: red;
+}
+
+.text_bold{
+  font-weight: 900;
 }
