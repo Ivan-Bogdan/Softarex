@@ -72,6 +72,7 @@ code {
   color: red;
 }
 
-.text_bold{
+.text_bold {
   font-weight: 900;
+  text-align: center;
 }

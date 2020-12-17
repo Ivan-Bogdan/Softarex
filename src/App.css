@@ -114,12 +114,18 @@ button {
 .main-div {
   display: flex;
 }
+.main-div-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .list_item {
   display: flex;
   flex-direction: column;
   align-items: baseline;
   margin-left: 15px;
+  text-align: left;
 }
 
 li {

@@ -1,18 +1,36 @@
 import React, { useState } from "react";
 import "../App.css";
 
-const Tag = ({ x, y, text }) => {
+const Tag = ({ item }) => {
   const [isShown, setIsShown] = useState(false);
-  return (
+
+  return item.isSelected ? (
     <div
       onMouseOver={() => setIsShown(true)}
       onMouseOut={() => setIsShown(false)}
       className="container-point"
-      style={{ left: `${x - 5}px`, top: `${y - 2}px` }}
+      style={{
+        left: `${item.x - 5}px`,
+        top: `${item.y - 2}px`,
+        background: "green",
+      }}
     >
       {isShown && (
         <div className="relative">
-          <div className="tag_item">{text}</div>
+          <div className="tag_item">{item.text}</div>
+        </div>
+      )}
+    </div>
+  ) : (
+    <div
+      onMouseOver={() => setIsShown(true)}
+      onMouseOut={() => setIsShown(false)}
+      className="container-point"
+      style={{ left: `${item.x - 5}px`, top: `${item.y - 2}px` }}
+    >
+      {isShown && (
+        <div className="relative">
+          <div className="tag_item">{item.text}</div>
         </div>
       )}
     </div>
