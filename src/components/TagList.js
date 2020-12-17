@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 
-const TagList = ({ list, callback }) => {
+const TagList = ({ list, callback, callbackSelectedTag, sel }) => {
   const [array, setArray] = useState([...list]);
+  const [selectedTag, setSelectedTag] = useState("");
 
   useEffect(() => {
     if (list) setArray(list);
-  }, [list]);
+    callbackSelectedTag(selectedTag);
+  }, [list, callbackSelectedTag, selectedTag]);
+
   return (
     <div className="list_item">
       <p>Список меток:</p>
@@ -25,6 +28,8 @@ const TagList = ({ list, callback }) => {
               });
               setArray([...array]);
               callback(array);
+              setSelectedTag(item.id);
+              callbackSelectedTag(selectedTag);
             }}
           >
             {item.text}

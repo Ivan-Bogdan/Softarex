@@ -72,6 +72,10 @@ code {
   color: red;
 }
 
+.green_color {
+  background-color: green;
+}
+
 .text_bold {
   font-weight: 900;
   text-align: center;

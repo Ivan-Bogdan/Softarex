@@ -4,28 +4,11 @@ import "../App.css";
 const Tag = ({ item }) => {
   const [isShown, setIsShown] = useState(false);
 
-  return item.isSelected ? (
+  return (
     <div
       onMouseOver={() => setIsShown(true)}
       onMouseOut={() => setIsShown(false)}
-      className="container-point"
-      style={{
-        left: `${item.x - 5}px`,
-        top: `${item.y - 2}px`,
-        background: "green",
-      }}
-    >
-      {isShown && (
-        <div className="relative">
-          <div className="tag_item">{item.text}</div>
-        </div>
-      )}
-    </div>
-  ) : (
-    <div
-      onMouseOver={() => setIsShown(true)}
-      onMouseOut={() => setIsShown(false)}
-      className="container-point"
+      className={item.isSelected ? "container-point green_color" : "container-point"}
       style={{ left: `${item.x - 5}px`, top: `${item.y - 2}px` }}
     >
       {isShown && (
