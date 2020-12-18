@@ -59,8 +59,7 @@ const Modal = ({ isShowing, elem, id, array, onClose, callbackTags2 }) => {
               <button
                 onClick={() => {
                   if (text !== "") {
-                    elem["text"] = text;/* 
-                    elem["isSelected"] = false; */
+                    elem["text"] = text;
                     elem["id"] = Date.now();
                     setTagsArray([...tagsArray]);
                     onClose();

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ImageBlock from "./components/ImageBlock";
 import Menu from "./components/Menu";
 import TagList from "./components/TagList";
@@ -12,8 +12,6 @@ const DropArea = () => {
   };
 
   const updateData = () => (value) => setTagsArray(value);
-
-  useEffect(() => {}, [selectedTag]);
 
   return (
     <div className="main-div">
