@@ -13,7 +13,7 @@ const TagList = ({ list, callback, callbackSelectedTag, sel }) => {
     <div className="list_item">
       <p>Список меток:</p>
       {array.map((item, acc) =>
-        item.isSelected ? (
+        item.id === selectedTag ? (
           <li key={acc} className="menu_selected">
             {item.text}
           </li>
@@ -21,11 +21,6 @@ const TagList = ({ list, callback, callbackSelectedTag, sel }) => {
           <li
             key={acc}
             onClick={() => {
-              array.forEach((item, key) => {
-                key === acc
-                  ? (item.isSelected = true)
-                  : (item.isSelected = false);
-              });
               setArray([...array]);
               callback(array);
               setSelectedTag(item.id);
